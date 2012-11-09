@@ -11,7 +11,7 @@ Neuron::Neuron(int numInputs, float thr)
 	thresh = thr;
 }
 
-int Neuron::snap(vector<short> inputs)
+int Neuron::snap(vector<int> inputs)
 {
 	float sum = 0;
 	for(int i = 0; i < inputs.size(); i++)
@@ -24,10 +24,23 @@ int Neuron::snap(vector<short> inputs)
 		return 0;
 }
 
+void Neuron::setNumInputs(int numinputs)
+{
+	weights.resize(numinputs);
+}
+
 void Neuron::resetWeights(int range=1)
 {
 	for(int i = 0; i < weights.size(); i++)
 	{
 		weights[i] = (float)((rand() % (range * 2000)) - (range * 1000)) / 1000.0;
 	}
+}
+
+void Neuron::print()
+{
+	cout << "Neuron:\n";
+	cout << "Threshold: " << thresh << "\n";
+	for(int i = 0; i < weights.size(); i++)
+		cout << "Weight #" << i << ": " << weights[i] << "\n";
 }
