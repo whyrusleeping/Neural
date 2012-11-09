@@ -8,12 +8,15 @@
 using std::cout;
 using std::vector;
 
+class Network;
+
 class Neuron
 {
 	public:
+		friend Network;
 		Neuron();
 		Neuron(int numInputs, float thr);
-		int snap(vector<int> inputs);
+		float snap(vector<float> inputs);
 
 		void setNumInputs(int numInputs);
 		void setThreshold(float thr);

@@ -17,10 +17,13 @@ class Network
 	
 		void ResetNetwork();
 
-		vector<int> Query(vector<int> inputs);
+		vector<float> Query(vector<float> inputs);
+		void Train(vector<float> inputs, vector<float> expected);
+		void PrintNetwork();
 	private:
 		vector<vector<Neuron> > _network;
 		int numInputs;
 		int numOutputs;
+		float learningRate;
 };
 #endif 
