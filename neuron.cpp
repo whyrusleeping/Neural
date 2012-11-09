@@ -1,20 +1,33 @@
 #include "neuron.h"
 
-Neuron::Neuron(int numInputs, int thresh)
+Neuron::Neuron()
+{
+	thresh = 1;
+}
+
+Neuron::Neuron(int numInputs, float thr)
 {
 	weights.resize(numInputs);
-	thr = thresh;
+	thresh = thr;
 }
 
 int Neuron::snap(vector<short> inputs)
 {
-	int sum = 0;
+	float sum = 0;
 	for(int i = 0; i < inputs.size(); i++)
 	{
 		sum += inputs[i] * weights[i];
 	}
-	if (sum > thr)
+	if (sum > thresh)
 		return 1;
 	else
 		return 0;
+}
+
+void Neuron::resetWeights(int range=1)
+{
+	for(int i = 0; i < weights.size(); i++)
+	{
+		weights[i] = (float)((rand() % (range * 2000)) - (range * 1000)) / 1000.0;
+	}
 }

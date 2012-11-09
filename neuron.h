@@ -8,11 +8,16 @@ using std::vector;
 class Neuron
 {
 	public:
-		Neuron(int numInputs, int thr);
+		Neuron();
+		Neuron(int numInputs, float thr);
 		int snap(vector<short> inputs);
+
+		void setNumInputs(int numInputs);
+		void setThreshold(float thr);
+		void resetWeights(int range);
 	private:
-		int thresh;
-		vector<int> weights;
+		float thresh;
+		vector<float> weights;
 
 };
 
