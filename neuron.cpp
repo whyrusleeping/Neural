@@ -7,17 +7,18 @@ Neuron::Neuron()
 
 Neuron::Neuron(int numInputs)
 {
-	weights.resize(numInputs);
+	setNumInputs(numInputs);
 }
 
-int Neuron::snap(vector<float> inputs)
+float Neuron::snap(vector<float> inputs)
 {
-	float sum = 0;
+	lastInp = inputs;
+	result = 0;
 	for(int i = 0; i < inputs.size(); i++)
 	{
-		sum += inputs[i] * weights[i];
+		result += inputs[i] * weights[i];
 	}
-	return sum;
+	return result;
 }
 
 void Neuron::setNumInputs(int numinputs)
@@ -29,7 +30,7 @@ void Neuron::resetWeights(int range=1)
 {
 	for(int i = 0; i < weights.size(); i++)
 	{
-		weights[i] = (float)((rand() % (range * 2000)) - (range * 1000)) / 1000.0;
+		weights[i] = (float)((rand() % (range * 200)) - (range * 100)) / 100.0;
 	}
 }
 

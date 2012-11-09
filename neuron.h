@@ -15,7 +15,7 @@ class Neuron
 	public:
 		friend Network;
 		Neuron();
-		Neuron(int numInputs, float thr);
+		Neuron(int numInputs);
 		float snap(vector<float> inputs);
 
 		void setNumInputs(int numInputs);
@@ -23,8 +23,9 @@ class Neuron
 		void resetWeights(int range);
 		void print();
 	private:
-		float thresh;
+		float result;
 		vector<float> weights;
+		vector<float> lastInp;
 
 };
 
