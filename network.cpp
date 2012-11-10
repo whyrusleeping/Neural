@@ -135,8 +135,6 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 
 }*/
 
-//#define DSTAT(a) cout<<a<<"\n";
-#define DSTAT(a)
 
 void Network::Train(vector<float> inputs, vector<float> expected)
 {
@@ -149,7 +147,7 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 	{
 		error[i] = results[i] * (1 - results[i]) * (expected[i] - results[i]);
 	}
-	DSTAT("calculated output error");
+
 	//Update the output weights
 	int i = _network.size() - 1;
 	for(int j = 0; j < _network[i].size(); j++) //for each neuron in the output layer...
@@ -160,7 +158,6 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 		}
 	}
 
-	DSTAT("updated output weights");
 	//Back propogate the error
 	i--; //decrement i to move back to correct layer
 	for(int hid = 0; hid < _network[i].size(); hid++)
@@ -169,13 +166,11 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 		for(int bpvI = 0; bpvI < _network[i+1].size(); bpvI++)
 			backPropVal += (_network[i+1][bpvI].weights[hid] * error[bpvI]);
 		_network[i][hid].error = _network[i][hid].result * (1 - _network[i][hid].result) * backPropVal;
-		DSTAT("Back Propogation complete, updating weights.");
+
 		//Update weights for hidden layer
 		for(int hidW = 0; hidW < _network[i][hid].weights.size(); hidW++)
 		{
 			_network[i][hid].weights[hidW] += learningRate * _network[i][hid].error * _network[i][hid].lastInp[hidW];
 		}
-		DSTAT("hidden layer weights updated.");
 	}
-	DSTAT("training complete");
 }

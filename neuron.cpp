@@ -29,7 +29,7 @@ void Neuron::resetWeights(int range=1)
 {
 	for(int i = 0; i < weights.size(); i++)
 	{
-		weights[i] = (float)((rand() % (range * 200)) - (range * 100)) / 100.0;
+		weights[i] = (float)((rand() % (range * 100))+1) / 100.0;
 	}
 }
 
