@@ -75,7 +75,7 @@ void Network::ResetNetwork()
 }
 
 //Applies the inputs to the network and returns the output
-vector<int> Network::Query(vector<float> inputs)
+vector<float> Network::Query(vector<float> inputs)
 {
 	for(int i = 0; i < _network.size(); i++)
 	{
@@ -98,7 +98,7 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 	vector<float> error(actual.size());
 	for(int i = 0; i < expected.size(); i++)
 	{
-		error[i] = learningRate * (expected[i] - actual[i]);
+		error[i] = actual[i] * (1 - actual[i]) * (expected[i] - actual[i]);
 	}
 
 	//Now update the weights
@@ -108,9 +108,65 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 		{
 			for(int wt = 0; wt < _network[i][j].weights.size(); wt++) //for each weight in that 
 			{
-				_network[i][j].weights[wt] += learningRate * error[j] * actual[j];
+				_network[i][j].weights[wt] += learningRate * error[j] * _network[i][j].result; //update the weight
 			}
 		}
+
+		//now, for each neuron in the parent layer, calculate the new error
+		//back propogate the errors
+		vector<float> nError(_network[i-1].size());
+		for(int ne = 0; ne < _network[i-1].size(); ne++)
+		{			
+			float ernum = 0; //Sum up the errors for one layer back
+			for(int lno = 0; lno < _network[i].size(); lno++)
+				ernum += (_network[i][lno].weights[ne] * error[lno]);
+			
+			nError[ne] = _network[i-1][ne].result * (1 - _network[i-1][ne].result) * ernum;
+			
+			//Now that we have the error for a given node, use it to modify the weights
+			for(int ner = 0; ner < _network[i-1][ne].weights.size(); ner++)
+			{
+				
+			}
+		}
+
 	}
+
+}
+
+void Network::Train(vector<float> inputs, vector<float> expected)
+{
+	vector<float> results = Query(inputs);
+
+	vector<float> error(results.size());
+
+	//Calculate output error.
+	for(int i = 0; i < results.size(); i++)
+	{
+		error[i] = results[i] * (1 - results[i]) * (expected[i] - results[i]);
+	}
+
+	//Update the output weights
+	int i = _network.size() - 1;
+	for(int j = 0; j < _network[i].size(); j++) //for each neuron in the output layer...
+	{
+		for(int wt = 0; wt < _network[i][j].weights.size(); wt++) //for each weight in that 
+		{
+			_network[i][j].weights[wt] += learningRate * error[j] * _network[i][j].lastInp[wt]; //update the weight
+		}
+	}
+
+	//Back propogate the error
+	vector<float> nextErrors(_network[--i].size());
+	for(int hid = 0; hid < nextErrors.size(); hid++)
+	{
+		float backPropVal = 0;
+		for(int bpvI = 0; bpvI < _network[i+1].size(); bpvI++)
+			backPropVal += (_network[i+1][bpvI].weights[hid] * error[bpvI]);
+		nextErrors[hid] = _network[i][hid].result * (1 - _network[i][hid].result) * backPropVal;
+	}
+
+
+
 
 }
