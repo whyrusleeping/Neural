@@ -24,6 +24,7 @@ class Neuron
 		void print();
 	private:
 		float result;
+		float error;
 		vector<float> weights;
 		vector<float> lastInp;
 

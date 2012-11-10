@@ -2,7 +2,6 @@
 
 Neuron::Neuron()
 {
-	thresh = 1;
 }
 
 Neuron::Neuron(int numInputs)
