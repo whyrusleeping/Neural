@@ -17,6 +17,7 @@ float Neuron::snap(vector<float> inputs)
 	{
 		result += inputs[i] * weights[i];
 	}
+	result = sigmoid(result);
 	return result;
 }
 
@@ -31,6 +32,11 @@ void Neuron::resetWeights(int range=1)
 	{
 		weights[i] = (float)((rand() % (range * 100))+1) / 100.0;
 	}
+}
+
+float Neuron::sigmoid(float val)
+{
+	return 1 / (1 + pow(2.71828, (val * -1)));
 }
 
 void Neuron::print()

@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
 using std::cout;
 using std::vector;
@@ -22,6 +23,7 @@ class Neuron
 		void setThreshold(float thr);
 		void resetWeights(int range);
 		void print();
+		float sigmoid(float val);
 	private:
 		float result;
 		float error;

@@ -5,12 +5,6 @@ using std::cout;
 
 int main()
 {
-	//The goal for this test is to get the following input/output pairs
-	//0101 = 00
-	//1001 = 10
-	//1010 = 11
-	//0110 = 01
-
 	srand(time(NULL));
 
 	Network n;
@@ -37,9 +31,6 @@ int main()
 	n.PrintNetwork();
 	vector<float> o = n.Query(test);
 	
-	float a = 5.4;
-	a -= 5.4;
-	cout << 0.0 * 5.4 << "\n";
 
 	cout << "Expected: " << expect[0] << " " << expectb[0] <<  "\n";
 	std::cin.ignore();
@@ -53,14 +44,15 @@ int main()
 	{
 		n.Train(test, expect);
 		n.Train(testb, expectb);
-		n.PrintNetwork();
-		std::cin.ignore();
+		o = n.Query(test);
+		cout << "Intermediary result: " << o[0];
+		o = n.Query(testb);
+		cout << " :: " << o[0] << "\n";
 	}
 
 	o = n.Query(test);
 	cout << "Trained Result: " << o[0] << "\n";
 	o = n.Query(testb);
 	cout << "Trained Result: " << o[0] << "\n";
-	n.PrintNetwork();
 	return 0;
 }
