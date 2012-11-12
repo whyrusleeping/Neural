@@ -101,6 +101,8 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 	//Calculate output error.
 	for(int i = 0; i < results.size(); i++)
 	{
+		//O * (1 - O) * (A - O) = error
+		//Something to do with the derivative of the sigmoid function
 		error[i] = results[i] * (1 - results[i]) * (expected[i] - results[i]);
 	}
 
@@ -110,6 +112,7 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 	{
 		for(int wt = 0; wt < _network[i][j].weights.size(); wt++) //for each weight in that 
 		{
+			//W = W + (n * error * IN)
 			_network[i][j].weights[wt] += learningRate * error[j] * _network[i][j].lastInp[wt]; //update the weight
 		}
 	}
@@ -120,12 +123,17 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 	{
 		float backPropVal = 0;
 		for(int bpvI = 0; bpvI < _network[i+1].size(); bpvI++)
+		{
+			//Summation of: (W_i * Err_i)
 			backPropVal += (_network[i+1][bpvI].weights[hid] * error[bpvI]);
+		}
+		//Error = O * (1 - O) * E(W_i * Err_i)
 		_network[i][hid].error = _network[i][hid].result * (1 - _network[i][hid].result) * backPropVal;
 
 		//Update weights for hidden layer
 		for(int hidW = 0; hidW < _network[i][hid].weights.size(); hidW++)
 		{
+			//W = W + (n * err * IN)
 			_network[i][hid].weights[hidW] += learningRate * _network[i][hid].error * _network[i][hid].lastInp[hidW];
 		}
 	}

@@ -21,6 +21,11 @@ float Neuron::snap(vector<float> inputs)
 	return result;
 }
 
+void Neuron::updateWeight(int wi, float delta)
+{
+	weights[wi] += delta;
+}
+
 void Neuron::setNumInputs(int numinputs)
 {
 	weights.resize(numinputs);

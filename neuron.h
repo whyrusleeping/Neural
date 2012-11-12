@@ -19,6 +19,7 @@ class Neuron
 		Neuron(int numInputs);
 		float snap(vector<float> inputs);
 
+		void updateWeight(int wi, float delta);
 		void setNumInputs(int numInputs);
 		void setThreshold(float thr);
 		void resetWeights(int range);
