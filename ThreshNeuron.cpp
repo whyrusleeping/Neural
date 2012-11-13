@@ -15,7 +15,7 @@ TNeuron::TNeuron(int numInputs, float learn)
 int TNeuron::snap(vector<int> inputs)
 {
 	lastInp = inputs;
-	result = 0;
+	result = weights[0];
 	for(int i = 0; i < inputs.size(); i++)
 	{
 		result += inputs[i] * weights[i+1];
@@ -32,19 +32,18 @@ void TNeuron::addToWeight(int wi, float delta)
 void TNeuron::updateWeights(vector<int> inp, int expect)
 {
 	int out = snap(inp);
-	for(int i = 0; i < weights.size(); i++)
+	weights[0] += learningRate * (expect - out);
+	for(int i = 1; i < weights.size(); i++)
 	{
 		//W = W + (a * (y - hw(X)) * Xi)
-		if(!i) //This case for the special 'W0'
-			weights[i] += learningRate * (float)(expect - out);
-		else
-			weights[i] += learningRate * (float)(expect - out) * (float)inp[i-1];
+		weights[i] += learningRate * (float)(expect - out) * (float)inp[i-1];
 	}
+
 }
 
 void TNeuron::setNumInputs(int numinputs)
 {
-	weights.resize(numinputs);
+	weights.resize(numinputs+1);
 }
 
 //Randomizes the the weights to a number between .01 and 'range'

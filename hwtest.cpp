@@ -5,7 +5,7 @@ using std::cin;
 int main()
 {
 	TNeuron n;
-	n.setNumInputs(4);
+	n.setNumInputs(3);
 	for(int i = 0; i < 3; i++) {n.weights[i] = 1;};
 
 	vector<vector<int> > inps;
@@ -15,13 +15,12 @@ int main()
 	for(int i = 0; i < 8; i++) {inps[i].resize(4);};
 	for(int i = 0; i < 8; i++)
 	{
-		inps[i][0] = 1;
 		if(i & 1)
-			inps[i][1] = 1;
+			inps[i][0] = 1;
 		if(i & 2)
-			inps[i][2] = 1;
+			inps[i][1] = 1;
 		if(i & 4)
-			inps[i][3] = 1;
+			inps[i][2] = 1;
 	}
 
 	exps[0] = 1;
