@@ -20,9 +20,13 @@ float Neuron::snap(vector<float> inputs)
 	{
 		result += inputs[i] * weights[i];
 	}
-	//result = sigmoid(result);
-	//return result
-	return (result > 0 ? 1 : 0);
+	result = sigmoid(result);
+	return result
+}
+
+void Neuron::setLearningRate(float Nlearn)
+{
+	learningRate = Nlearn;
 }
 
 void Neuron::addToWeight(int wi, float delta)
@@ -30,22 +34,12 @@ void Neuron::addToWeight(int wi, float delta)
 	weights[wi] += delta;
 }
 
-//For Threshold Neurons
-void Neuron::updateWeights(vector<float> inp, float expect)
-{
-	float out = snap(inp);
-	for(int i = 0; i < weights.size(); i++)
-	{
-		//W = W + (a * (y - hw(X)) * Xi)
-		weights[i] += learningRate * (expect - out) * inp[i];
-	}
-}
-
 void Neuron::setNumInputs(int numinputs)
 {
 	weights.resize(numinputs);
 }
 
+//Randomizes the the weights to a number between .01 and 'range'
 void Neuron::resetWeights(int range=1)
 {
 	for(int i = 0; i < weights.size(); i++)
@@ -54,11 +48,13 @@ void Neuron::resetWeights(int range=1)
 	}
 }
 
+//Sigmoid Activation Function
 float Neuron::sigmoid(float val)
 {
 	return 1 / (1 + pow(2.71828, (val * -1)));
 }
 
+//Prints out all the neurons weights
 void Neuron::print()
 {
 	cout << "Neuron:\n";

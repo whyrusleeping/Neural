@@ -1,3 +1,4 @@
+//Author: Jeromy Johnson
 #ifndef J_NEURON_H
 #define J_NEURON_H
 
@@ -11,18 +12,22 @@ using std::vector;
 
 class Network;
 
+///
+//A Threshold activation Neuron as discussed in chapter 18 of 
+//Russel and Norvigs Artificial Intelligence Textbook
+///
 class TNeuron
 {
 	public:
 		friend Network;
 		TNeuron();
-		TNeuron(int numInputs,float learn);
+		TNeuron(int numInputs, float learn);
 		int snap(vector<int> inputs);
-
+	
+		void setLearningRate(float nLearn);
 		void addToWeight(int wi, float delta);
 		void updateWeights(vector<int> inp, int expect);
 		void setNumInputs(int numInputs);
-		void setThreshold(int thr);
 		void resetWeights(int range);
 		void print();
 		int sigmoid(int val);
