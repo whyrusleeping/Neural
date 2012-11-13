@@ -7,12 +7,11 @@ int main()
 {
 	srand(time(NULL));
 
-
-
 	Network n;
-	n.SetDepth(2);
+	n.SetDepth(3);
 	n.SetNodeCountAtLevel(3,0);
-	n.SetNodeCountAtLevel(1,1);
+	n.SetNodeCountAtLevel(5,1);
+	n.SetNodeCountAtLevel(1,2);
 	n.SetNumOutputs(1);
 	n.SetNumInputs(2);
 	n.LinkNeurons();
@@ -23,13 +22,13 @@ int main()
 	test[0] = 0.334;
 	test[1] = 0.248;
 
+	vector<float> expectb(1);
+	expectb[0] = 0.222;
 	vector<float> testb(2);
 	testb[0] = 0.868;
 	testb[1] = 0.512;
-	vector<float> expectb(1);
-	expectb[0] = 0.222;
 
-	n.ResetNetwork();
+	n.ResetNetwork(); //Randomize Weights
 	n.PrintNetwork();
 	vector<float> o = n.Query(test);
 	
@@ -46,7 +45,7 @@ int main()
 	{
 		n.Train(test, expect);
 
-		//n.Train(testb, expectb);
+		n.Train(testb, expectb);
 	}
 
 	o = n.Query(test);

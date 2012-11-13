@@ -21,7 +21,7 @@ float Neuron::snap(vector<float> inputs)
 		result += inputs[i] * weights[i];
 	}
 	result = sigmoid(result);
-	return result
+	return result;
 }
 
 void Neuron::setLearningRate(float Nlearn)
@@ -29,6 +29,7 @@ void Neuron::setLearningRate(float Nlearn)
 	learningRate = Nlearn;
 }
 
+//This function is here in case i want to track changes to the weight as they are applied.
 void Neuron::addToWeight(int wi, float delta)
 {
 	weights[wi] += delta;
@@ -39,12 +40,12 @@ void Neuron::setNumInputs(int numinputs)
 	weights.resize(numinputs);
 }
 
-//Randomizes the the weights to a number between .01 and 'range'
+//Randomizes the the weights to a number between -range and range
 void Neuron::resetWeights(int range=1)
 {
 	for(int i = 0; i < weights.size(); i++)
 	{
-		weights[i] = (float)((rand() % (range * 100))+1) / 100.0;
+		weights[i] = (float)((rand() % (range * 200)) - (100 * range)) / 100.0;
 	}
 }
 
