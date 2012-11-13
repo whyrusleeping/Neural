@@ -7,5 +7,8 @@ neuron.o: neuron.cpp
 network.o: network.cpp
 	g++ -c network.cpp
 
+hw: 
+	g++ hwtest.cpp ThreshNeuron.cpp -o hwork
+
 clean:
 	rm *.o
