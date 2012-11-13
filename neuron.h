@@ -16,21 +16,22 @@ class Neuron
 	public:
 		friend Network;
 		Neuron();
-		Neuron(int numInputs);
+		Neuron(int numInputs,float learn);
 		float snap(vector<float> inputs);
 
-		void updateWeight(int wi, float delta);
+		void addToWeight(int wi, float delta);
+		void updateWeights(vector<float> inp, float expect);
 		void setNumInputs(int numInputs);
 		void setThreshold(float thr);
 		void resetWeights(int range);
 		void print();
 		float sigmoid(float val);
+		vector<float> weights;
 	private:
 		float result;
 		float error;
-		vector<float> weights;
 		vector<float> lastInp;
-
+		float learningRate;
 };
 
 #endif

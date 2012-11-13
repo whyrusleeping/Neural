@@ -27,7 +27,7 @@ int main()
 	testb[0] = 0.868;
 	testb[1] = 0.512;
 	vector<float> expectb(1);
-	expectb[0] = 0.114;
+	expectb[0] = 0.222;
 
 	n.ResetNetwork();
 	n.PrintNetwork();
@@ -45,7 +45,8 @@ int main()
 	while(qwe--)
 	{
 		n.Train(test, expect);
-		n.Train(testb, expectb);
+
+		//n.Train(testb, expectb);
 	}
 
 	o = n.Query(test);

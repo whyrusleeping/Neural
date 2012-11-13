@@ -6,7 +6,7 @@ Network::Network()
 	_network.resize(1);
 	numOutputs = 0;
 	numInputs = 0;
-	learningRate = 0.2;
+	learningRate = 0.9;
 }
 
 //Set the number of output nodes in the network

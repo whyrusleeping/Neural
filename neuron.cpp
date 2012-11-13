@@ -2,13 +2,16 @@
 
 Neuron::Neuron()
 {
+	learningRate = 0.5;
 }
 
-Neuron::Neuron(int numInputs)
+Neuron::Neuron(int numInputs, float learn)
 {
 	setNumInputs(numInputs);
+	learningRate = learn;
 }
 
+//Evaluate the neuron with given inputs
 float Neuron::snap(vector<float> inputs)
 {
 	lastInp = inputs;
@@ -17,13 +20,25 @@ float Neuron::snap(vector<float> inputs)
 	{
 		result += inputs[i] * weights[i];
 	}
-	result = sigmoid(result);
-	return result;
+	//result = sigmoid(result);
+	//return result
+	return (result > 0 ? 1 : 0);
 }
 
-void Neuron::updateWeight(int wi, float delta)
+void Neuron::addToWeight(int wi, float delta)
 {
 	weights[wi] += delta;
+}
+
+//For Threshold Neurons
+void Neuron::updateWeights(vector<float> inp, float expect)
+{
+	float out = snap(inp);
+	for(int i = 0; i < weights.size(); i++)
+	{
+		//W = W + (a * (y - hw(X)) * Xi)
+		weights[i] += learningRate * (expect - out) * inp[i];
+	}
 }
 
 void Neuron::setNumInputs(int numinputs)
