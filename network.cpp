@@ -6,7 +6,7 @@ Network::Network()
 	_network.resize(1);
 	numOutputs = 0;
 	numInputs = 0;
-	learningRate = 0.9;
+	learningRate = 0.3;
 }
 
 //Set the number of output nodes in the network
@@ -109,12 +109,7 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 	int i = _network.size() - 1;
 	for(int j = 0; j < _network[i].size(); j++) //for each neuron in the output layer...
 	{
-		for(int wt = 0; wt < _network[i][j].weights.size(); wt++) //for each weight in that 
-		{
-			//update the weight
-			//W = W + (n * error * IN)
-			_network[i][j].weights[wt] += learningRate * _network[i][j].error * _network[i][j].lastInp[wt]; 
-		}
+		_network[i][j].adjustForError();
 	}
 
 	//Back propogate the error
@@ -133,11 +128,7 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 			_network[i][hid].error = _network[i][hid].result * (1 - _network[i][hid].result) * backPropVal;
 
 			//Update weights for hidden layer
-			for(int hidW = 0; hidW < _network[i][hid].weights.size(); hidW++)
-			{
-				//W = W + (n * err * IN)
-				_network[i][hid].weights[hidW] += learningRate * _network[i][hid].error * _network[i][hid].lastInp[hidW];
-			}
+			_network[i][hid].adjustForError();
 		}
 	}
 }
