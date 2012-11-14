@@ -25,12 +25,16 @@ class Neuron
 		void setLearningRate(float nLearn);
 		void addToWeight(int wi, float delta);
 		void updateWeights(vector<float> inp, float expect);
+
+		void adjustForError();
+
 		void setNumInputs(int numInputs);
 		void resetWeights(int range);
 		void print();
 		float sigmoid(float val);
 		vector<float> weights;
 	private:
+		float zWeight;
 		float result;
 		float error;
 		vector<float> lastInp;

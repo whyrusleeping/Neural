@@ -20,7 +20,7 @@ float Neuron::snap(vector<float> inputs)
 	{
 		result += inputs[i] * weights[i];
 	}
-	result = sigmoid(result);
+	result = sigmoid(result + zWeight);
 	return result;
 }
 
@@ -47,12 +47,24 @@ void Neuron::resetWeights(int range=1)
 	{
 		weights[i] = (float)((rand() % (range * 200)) - (100 * range)) / 100.0;
 	}
+	zWeight = (float)((rand() % (range * 200)) - (100 * range)) / 100.0;
 }
 
 //Sigmoid Activation Function
 float Neuron::sigmoid(float val)
 {
 	return 1 / (1 + pow(2.71828, (val * -1)));
+}
+
+void Neuron::adjustForError()
+{
+	for(int wt = 0; wt < weights.size(); wt++) //for each weight
+	{
+		//update the weight
+		//W = W + (n * error * IN)
+		weights[wt] += learningRate * error * lastInp[wt]; 
+	}
+	zWeight += learningRate * error;
 }
 
 //Prints out all the neurons weights
