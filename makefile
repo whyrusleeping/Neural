@@ -1,14 +1,6 @@
-all: neuron.o network.o
-	g++ simpleTest.cpp neuron.o network.o -o test
+all: neural
 
-neuron.o: neuron.cpp
-	g++ -c neuron.cpp
+neural:
+	cd Neuron
+	make
 
-network.o: network.cpp
-	g++ -c network.cpp
-
-hw: 
-	g++ hwtest.cpp ThreshNeuron.cpp -o hwork
-
-clean:
-	rm *.o
