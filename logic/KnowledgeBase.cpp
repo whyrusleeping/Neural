@@ -10,11 +10,6 @@ void KnowledgeBase::AddRule(string rule)
 	parseStatement(rule);
 }
 
-void KnowledgeBase::parse(string phrase)
-{
-
-}
-
 LogicObject *KnowledgeBase::parseStatement(string s)
 {
 	int depth = 0;
@@ -56,11 +51,6 @@ LogicObject *KnowledgeBase::parseStatement(string s)
 		return variables[pieces[0]];
 	}
 
-	cout << "left: " << pieces[0] << "\n";
-	cout << "oper: " << pieces[1] << "\n";
-	cout << "right: " << pieces[2] << "\n";
-	
-
 	Statement *st = new Statement();
 
 	bool LisText = true;
@@ -80,6 +70,8 @@ LogicObject *KnowledgeBase::parseStatement(string s)
 	{
 		st->setLeft(parseStatement(pieces[0]));
 	}
+
+	
 
 	if(RisText)
 	{
