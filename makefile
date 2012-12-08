@@ -1,6 +1,6 @@
 all: neural
 
 neural:
-	cd Neuron
+	cd Neurons
 	make
 
