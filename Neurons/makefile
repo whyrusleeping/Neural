@@ -1,14 +1,16 @@
+OPTFLAG=-O3
+
 all: neuron.o network.o
-	g++ simpleTest.cpp neuron.o network.o -o test
+	g++ simpleTest.cpp neuron.o network.o $(OPTFLAG) -o test
 
 neuron.o: neuron.cpp
-	g++ -c neuron.cpp
+	g++ $(OPTFLAG) -c neuron.cpp
 
 network.o: network.cpp
-	g++ -c network.cpp
+	g++ $(OPTFLAG) -c network.cpp
 
 hw: 
-	g++ hwtest.cpp ThreshNeuron.cpp -o hwork
+	g++ hwtest.cpp ThreshNeuron.cpp $(OPTFLAG) -o hwork
 
 clean:
 	rm *.o
