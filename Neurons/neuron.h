@@ -21,6 +21,7 @@ class Neuron
 		Neuron();
 		Neuron(int numInputs,float learn);
 		float snap(vector<float> inputs);
+		float snapC(vector<float> inputs) const;
 
 		void setLearningRate(float nLearn);
 		void addToWeight(int wi, float delta);
@@ -31,7 +32,7 @@ class Neuron
 		void setNumInputs(int numInputs);
 		void resetWeights(int range);
 		void print();
-		float sigmoid(float val);
+		float sigmoid(float val) const;
 		vector<float> weights;
 	private:
 		float zWeight;

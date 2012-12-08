@@ -9,7 +9,7 @@ int main()
 
 	Network n;
 	n.SetDepth(2);
-	n.SetNodeCountAtLevel(100,0);
+	n.SetNodeCountAtLevel(500,0);
 	n.SetNodeCountAtLevel(3,1);
 	//n.SetNodeCountAtLevel(1,2);
 	n.SetNumOutputs(1);
@@ -48,11 +48,20 @@ int main()
 	cout << "Initial result: " << o[0] << "\n";
 
 
-	int qwe = 30000;
+	int qwe = 100000;
+	//while(qwe--)
+	//{
+	//	n.Train(test, expect);
+	//	n.Train(testb, expectb);
+	//}
+	vector<float> rexp(1);
+	vector<float> rinp(2);
 	while(qwe--)
 	{
-		n.Train(test, expect);
-		n.Train(testb, expectb);
+		rinp[0] = (rand() % 200) / 100.0;
+		rinp[1] = (rand() % 200) / 100.0;
+		rexp[0] = rinp[0] * rinp[1];
+		n.Train(rinp, rexp);
 	}
 
 	o = n.Query(test);

@@ -104,7 +104,7 @@ vector<float> Network::Query(vector<float> inputs)
 }
 
 //Train using back propogation
-void Network::Train(vector<float> inputs, vector<float> expected)
+void Network::Train(const vector<float> &inputs,const vector<float> &expected)
 {
 	//Feed forward for results
 	vector<float> results = Query(inputs);
@@ -134,6 +134,56 @@ void Network::Train(vector<float> inputs, vector<float> expected)
 
 			//Update weights for hidden layer
 			_network[i][hid].adjustForError();
+		}
+	}
+}
+
+//[Async]
+//Train using back propogation without modifying the network during training.
+vector<vector<float> > Network::TrainC(const vector<float> &inputs, const vector<float> &expected) const
+{
+
+	//Feed forward for results
+	vector<float> results = inputs;
+	for(int i = 0; i < _network.size(); i++)
+	{
+		vector<float> lInp(_network[i].size());
+		for(int j = 0; j < _network[i].size(); j++)
+		{
+			lInp[j] = _network[i][j].snapC(results);
+		}
+		results = lInp;
+	}
+
+	//Calculate output error.
+	//O * (1 - O) * (A - O) = error
+	vector<vector<float> > error(_network.size());
+	for(int i = 0; i < error.size(); i++)
+		error[i].resize(_network[i].size());
+	
+	for(int i = 0; i < results.size(); i++)
+	{
+		error[error.size() - 1][i] = results[i] * (1 - results[i]) * (expected[i] - results[i]);
+		//Update the output weights
+		//_network[_network.size() - 1][i].adjustForError(); //dont update weights for async
+	}	
+	
+	//Back propogate the error
+	//decrement i to move back to the second to last layer
+	for(int i = _network.size() - 2; i >= 0; i--)
+	{
+		for(int hid = 0; hid < _network[i].size(); hid++)
+		{
+			float backPropVal = 0;
+			//Summation of: (W_i * Err_i)
+			for(int bpvI = 0; bpvI < _network[i+1].size(); bpvI++)
+				backPropVal += (_network[i+1][bpvI].weights[hid] * error[i+1][bpvI]);
+
+			//Error = O * (1 - O) * E(W_i * Err_i)
+			error[i][hid] = _network[i][hid].result * (1 - _network[i][hid].result) * backPropVal;
+
+			//Update weights for hidden layer
+			//_network[i][hid].adjustForError();
 		}
 	}
 }
