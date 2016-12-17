@@ -13,4 +13,4 @@ hw:
 	g++ hwtest.cpp ThreshNeuron.cpp $(OPTFLAG) -o hwork
 
 clean:
-	rm *.o
+	rm *.o test -r -f
